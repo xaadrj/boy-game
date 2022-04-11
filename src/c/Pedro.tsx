@@ -12,7 +12,7 @@ import {
 
 function Model() {
   const { nodes, materials, animations } = useGLTF(
-    "./models/boy.glb"
+    "./models/Guy.glb"
   ) as DreiGLTF;
 
   const pedro = useStore((s) => s.pedro);
@@ -117,22 +117,22 @@ console.log(actions)
         .split(".")[1];
       data.velocity = parseInt(vel);
 
-      !actions.walk?.isRunning() &&
-        actions.walk?.play() &&
-        actions.coolwalk?.stop();
+      !actions.Idle?.isRunning() &&
+        actions.Idle?.play() &&
+        actions.Running?.stop();
     }
 
     //animate when up is not pressed
-    if (!up && actions.walk?.isRunning()) {
-      actions.walk?.stop();
-      actions.walk?.reset();
-      actions.coolwalk?.play();
+    if (!up && actions.Idle?.isRunning()) {
+      actions.Idle?.stop();
+      actions.Idle?.reset();
+      actions.Running?.play();
     }
 
     //make idling stop when player starts running
     if (gameStarted && data.points < 1) {
-      actions?.walk!.stop();
-      actions?.coolwalk!.play();
+      actions?.Idle!.stop();
+      actions?.Running!.play();
     } //animeRun; idle; jump, run
 
     lockCamera(camera, pedro);
@@ -141,7 +141,7 @@ console.log(actions)
   useLayoutEffect(() => {
     if (!gameStarted) {
       lockCamera(camera, pedro);
-      actions.walk?.play();
+      actions.Idle?.play();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions]);
